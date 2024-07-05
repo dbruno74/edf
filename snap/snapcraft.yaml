@@ -1,0 +1,26 @@
+name: edf 
+base: core24 
+version: '0.1' 
+summary: EDF - scheduling to meet deadlines 
+description: |
+  EDF - scheduling to meet deadlines
+
+grade: stable 
+confinement: strict 
+
+apps:
+  edf:
+    command: usr/bin/edf
+    plugs: [process-control]
+
+parts:
+  edf:
+    # See 'snapcraft plugins'
+    plugin: nil
+    override-pull: |
+      cp $CRAFT_PROJECT_DIR/edf.c $CRAFT_PART_SRC
+    override-build: |
+      gcc edf.c -o edf
+      mkdir -p $CRAFT_PART_INSTALL/usr/bin
+      cp edf $CRAFT_PART_INSTALL/usr/bin
+    build-packages: [build-essential]
